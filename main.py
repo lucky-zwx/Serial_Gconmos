@@ -6,27 +6,32 @@
 #
 # WARNING! All changes made in this file will be lost!
 import binascii
-import sys, time
+import sys, time, json
 # import threading
 
 import serial
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal, QThread
-from PyQt5.QtGui import QStandardItem, QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QHeaderView
+from PyQt5.QtGui import QStandardItem, QIcon, QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QHeaderView, QMessageBox, QWidget
 
 import serial.tools.list_ports
 
 
 class Ui_MainWindow(object):
+    font = QtGui.QFont()
+    font.setFamily("宋体")
+    font.setPointSize(10)
     ser = serial.Serial()
     stop = -1
     listme = []
     stopchange = -1
     getfirst = 0
+    js = json.load(open('./limit.json'))
 
     def setupUi(self, MainWindow):
+        self._translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 730)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -68,45 +73,55 @@ class Ui_MainWindow(object):
         self.tableView4.setObjectName("tableView4")
 
         self.pushButton1 = QtWidgets.QPushButton(self.tab)
-        self.pushButton1.setGeometry(QtCore.QRect(0, 510, 70, 30))
+        self.pushButton1.setGeometry(QtCore.QRect(0, 510, 80, 30))
         self.pushButton1.setObjectName("pushButton")
-        self.pushButton1.setText('修改')
+        self.pushButton1.setText("发送修改")
+        self.pushButton1.setFont(self.font)
+        self.pushButton1.setIcon(QIcon('./ico/发送.png'))
         self.pushButton1.setEnabled(False)
 
         self.pushButton2 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton2.setGeometry(QtCore.QRect(0, 510, 70, 30))
+        self.pushButton2.setGeometry(QtCore.QRect(0, 510, 80, 30))
         self.pushButton2.setObjectName("pushButton")
-        self.pushButton2.setText('修改')
+        self.pushButton2.setText("发送修改")
+        self.pushButton2.setFont(self.font)
+        self.pushButton2.setIcon(QIcon('./ico/发送.png'))
         self.pushButton2.setEnabled(False)
 
         self.pushButton3 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton3.setGeometry(QtCore.QRect(0, 510, 70, 30))
+        self.pushButton3.setGeometry(QtCore.QRect(0, 510, 80, 30))
         self.pushButton3.setObjectName("pushButton")
-        self.pushButton3.setText('修改')
+        self.pushButton3.setText('发送修改')
+        self.pushButton3.setFont(self.font)
+        self.pushButton3.setIcon(QIcon('./ico/发送.png'))
         self.pushButton3.setEnabled(False)
 
         self.pushButton4 = QtWidgets.QPushButton(self.tab)
-        self.pushButton4.setGeometry(QtCore.QRect(0, 580, 70, 30))
+        self.pushButton4.setGeometry(QtCore.QRect(85, 510, 80, 30))
         self.pushButton4.setObjectName("pushButton")
-        self.pushButton4.setText('端口检测')
+        self.pushButton4.setFont(self.font)
+        self.pushButton4.setIcon(QIcon('./ico/检测.png'))
+        self.pushButton4.setText('串口检测')
 
         self.pushButton5 = QtWidgets.QPushButton(self.tab)
-        self.pushButton5.setGeometry(QtCore.QRect(0, 650, 70, 30))
+        self.pushButton5.setGeometry(QtCore.QRect(170, 510, 80, 30))
         self.pushButton5.setObjectName("pushButton")
-        self.pushButton5.setText('打开端口')
+        self.pushButton5.setText('打开串口')
+        self.pushButton5.setFont(self.font)
+        self.pushButton5.setIcon(QIcon('./ico/连接.png'))
         self.pushButton5.setEnabled(False)
 
-        # self.pushButton6 = QtWidgets.QPushButton(self.tab)
-        # self.pushButton6.setGeometry(QtCore.QRect(80, 510, 80, 30))
-        # self.pushButton6.setObjectName("pushButton")
-        # self.pushButton6.setText('重新获取信息')
-        # self.pushButton6.setEnabled(False)
-
         self.pushButton7 = QtWidgets.QPushButton(self.tab)
-        self.pushButton7.setGeometry(QtCore.QRect(80, 650, 70, 30))
+        self.pushButton7.setGeometry(QtCore.QRect(255, 510, 80, 30))
         self.pushButton7.setObjectName("pushButton")
-        self.pushButton7.setText('关闭端口')
+        self.pushButton7.setText('关闭串口')
+        self.pushButton7.setFont(self.font)
+        self.pushButton7.setIcon(QIcon('./ico/断开.png'))
         self.pushButton7.setEnabled(False)
+
+        self.advertisement = QtWidgets.QLabel(self.tab)
+        self.advertisement.setPixmap(QPixmap('./ico/advertisement.png').scaledToHeight(120))
+        self.advertisement.setGeometry(QtCore.QRect(55, 550, 500, 200))
 
         self.model = QtGui.QStandardItemModel(self.tableView)
         self.model.setRowCount(10)
@@ -138,11 +153,13 @@ class Ui_MainWindow(object):
 
         self.lable = QtWidgets.QLabel(self.tab)
         self.lable.setObjectName('lable')
-        self.lable.setText('请先检测端口')
-        self.lable.setGeometry(QtCore.QRect(0, 620, 75, 22))
+        self.lable.setText('请先检测串口')
+        self.lable.setFont(self.font)
+        self.lable.setAlignment(QtCore.Qt.AlignCenter)
+        self.lable.setGeometry(QtCore.QRect(85, 550, 80, 22))
 
         self.comboBox_4 = QtWidgets.QComboBox(self.tab)
-        self.comboBox_4.setGeometry(QtCore.QRect(0, 550, 70, 22))
+        self.comboBox_4.setGeometry(QtCore.QRect(0, 550, 80, 22))
         self.comboBox_4.setObjectName("comboBox_4")
         self.comboBox_4.addItem("")
         self.comboBox_4.addItem("")
@@ -271,8 +288,6 @@ class Ui_MainWindow(object):
         # 不断发送信息
         self.thread2 = Mythread_send()
 
-        # self.thread3 = Mythread_change()
-        #         # self.thread3._signal.connect(self.mabi)
 
     # 串口检测函数
     def port_cheak(self):
@@ -315,11 +330,6 @@ class Ui_MainWindow(object):
             self.thread.start()
             self.send_data()
             self.thread2.start()
-            time.sleep(1)
-
-            # self.t1 = threading.Thread(target=self.receive_data)
-            # self.t1.setDaemon(True)
-            # self.t1.start()
         else:
             self.lable.setText("打开失败")
 
@@ -345,14 +355,13 @@ class Ui_MainWindow(object):
         # 设置变量进行提示
         Ui_MainWindow.stop = 1
         self.ser.close()
-        if (self.ser.isOpen()):
+        if self.ser.isOpen():
             self.lable.setText("关闭失败")
         else:
             self.pushButton1.setEnabled(False)
             self.pushButton2.setEnabled(False)
             self.pushButton3.setEnabled(False)
             self.pushButton5.setEnabled(True)
-            # self.pushButton6.setEnabled(False)
             self.lable.setText("关闭成功")
 
     # 以十六位发送信息，这是第一次的全部查询信息发送
@@ -381,9 +390,17 @@ class Ui_MainWindow(object):
         result = 0
         Ui_MainWindow.stop = 1
         Ui_MainWindow.stopchange = 0
-        # self.thread3.start()
         for i in range(0, 18):
             if str(self.listme[i]) != str(self.model.item(i, 2).text()):
+                if int(self.model.item(i, 2).text()) > int(self.js['limit'][i]['max']) or int(self.model.item(i, 2).text()) < int(self.js['limit'][i]['min']):
+                    msgBox = QMessageBox()
+                    msgBox.setWindowTitle('提示')
+                    msgBox.setText('抱歉，您输入的参数存在错误！！！\n请修正后再次输入！')
+                    msgBox.setWindowIcon(QIcon('./ico/main.png'))
+                    msgBox.addButton(QMessageBox.Ok)
+                    msgBox.exec_()  # 模态对话框
+                    self.model.setItem(i, 2, QStandardItem(str(self.listme[i])))
+                    return
                 if self.ser.isOpen():
                     if (int(self.model.item(i, 2).text())) <= 16:
                         sas = '000' + hex(int(self.model.item(i, 2).text())).split('x')[1]
@@ -409,9 +426,17 @@ class Ui_MainWindow(object):
         result = 0
         Ui_MainWindow.stop = 1
         Ui_MainWindow.stopchange = 0
-        # self.thread3.start()
         for i in range(0, 15):
             if str(self.listme[i + 18]) != str(self.model2.item(i, 2).text()):
+                if int(self.model2.item(i, 2).text()) > int(self.js['limit'][i+18]['max']) or int(self.model2.item(i, 2).text()) < int(self.js['limit'][i+18]['min']):
+                    msgBox = QMessageBox()
+                    msgBox.setWindowTitle('提示')
+                    msgBox.setText('抱歉，您输入的参数存在错误！！！\n请修正后再次输入！')
+                    msgBox.setWindowIcon(QIcon('./ico/main.png'))
+                    msgBox.addButton(QMessageBox.Ok)
+                    msgBox.exec_()  # 模态对话框
+                    self.model2.setItem(i, 2, QStandardItem(str(self.listme[i+18])))
+                    return
                 if self.ser.isOpen():
                     if (int(self.model2.item(i, 2).text())) <= 16:
                         sas = '000' + hex(int(self.model2.item(i, 2).text())).split('x')[1]
@@ -432,9 +457,17 @@ class Ui_MainWindow(object):
         result = 0
         Ui_MainWindow.stop = 1
         Ui_MainWindow.stopchange = 0
-        # self.thread3.start()
         for i in range(0, 16):
             if str(self.listme[i + 33] != self.model3.item(i, 2).text()):
+                if int(self.model3.item(i, 2).text()) > int(self.js['limit'][i+33]['max']) or int(self.model3.item(i, 2).text()) < int(self.js['limit'][i+33]['min']):
+                    msgBox = QMessageBox()
+                    msgBox.setWindowTitle('提示')
+                    msgBox.setText('抱歉，您输入的参数存在错误！！！\n请修正后再次输入！')
+                    msgBox.setWindowIcon(QIcon('./ico/main.png'))
+                    msgBox.addButton(QMessageBox.Ok)
+                    msgBox.exec_()  # 模态对话框
+                    self.model3.setItem(i, 2, QStandardItem(str(self.listme[i+33])))
+                    return
                 if self.ser.isOpen():
                     if (int(self.model3.item(i, 2).text())) <= 16:
                         sas = '000' + hex(int(self.model3.item(i, 2).text())).split('x')[1]
@@ -453,12 +486,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "信息查看"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "捷科斯控制调试软件"))
         MainWindow.setWindowIcon(QIcon('./ico/main.png'))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "数据回显F0~F17"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "数据回显F18~F32"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "数据回显F33~F48"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "数据回显F49~F57"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "电机参数"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "控制参数一"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "控制参数二"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "实时状态"))
         self.comboBox_4.setItemText(0, _translate("MainWindow", "COM1"))
         self.comboBox_4.setItemText(1, _translate("MainWindow", "COM2"))
         self.comboBox_4.setItemText(2, _translate("MainWindow", "COM3"))
@@ -520,7 +553,7 @@ class Mythread(QThread, Ui_MainWindow):
                             balala += binascii.b2a_hex(res_data).decode()
                         if num == 5:
                             if int(balala, 16) < 10000 and where >= 49:
-                                self._signal.emit(str(int(balala, 16)), where)
+                                self._signal.emit(str(int(balala, 16)*0.1), where)
                                 print(where)
                             balala = ''
                             num = 0
@@ -541,7 +574,6 @@ class Mythread_send(QThread, Ui_MainWindow):
         print('发送线程启动')
 
     def run(self):
-        # self.ser.write(binascii.a2b_hex('690500006E'))
         while (True):
             for i in range(49, 58):
                 if (Ui_MainWindow.stop is 0):
@@ -550,41 +582,6 @@ class Mythread_send(QThread, Ui_MainWindow):
                 else:
                     self.quit()
 
-
-# class Mythread_change(QThread, Ui_MainWindow):
-#     _signal = pyqtSignal(str, int)
-#
-#     def __init__(self):
-#         super(Mythread_change, self).__init__()
-#         print('接受线程启动')
-#
-#     def run(self):
-#         num = 0
-#         where = 0
-#         status = 0
-#         balala = ''
-#         while (True):
-#             if Ui_MainWindow.stopchange is 0:
-#                 size = self.ser.inWaiting()
-#                 if size:
-#                     res_data = self.ser.read_all()
-#                     if str(binascii.b2a_hex(res_data).decode()) == '58':
-#                         status = 1
-#                     if status == 1:
-#                         num += 1
-#                         if num == 2:
-#                             where = int(binascii.b2a_hex(res_data).decode(), 16)
-#                         if num == 3 or num == 4:
-#                             balala += binascii.b2a_hex(res_data).decode()
-#                         if num == 5:
-#                             print(str(int(balala, 16)))
-#                             self._signal.emit(str(int(balala, 16)), where)
-#                             balala = ''
-#                             num = 0
-#                             status = 0
-#                     self.ser.flushInput()
-#             else:
-#                 self.quit()
 
 
 if __name__ == '__main__':
