@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'untitled2.ui'
+#
+# Created by: PyQt5 UI code generator 5.11.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(292, 350)
+        Form.setMinimumSize(QtCore.QSize(292, 350))
+        Form.setMaximumSize(QtCore.QSize(292, 350))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/ico/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
+        self.label_5 = QtWidgets.QLabel(Form)
+        self.label_5.setGeometry(QtCore.QRect(0, 0, 51, 51))
+        self.label_5.setText("")
+        self.label_5.setPixmap(QtGui.QPixmap(":/ico/main.png"))
+        self.label_5.setScaledContents(True)
+        self.label_5.setObjectName("label_5")
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(110, 310, 75, 31))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setGeometry(QtCore.QRect(200, 310, 75, 31))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.widget = QtWidgets.QWidget(Form)
+        self.widget.setGeometry(QtCore.QRect(50, 50, 191, 181))
+        self.widget.setObjectName("widget")
+        self.formLayout = QtWidgets.QFormLayout(self.widget)
+        self.formLayout.setLabelAlignment(QtCore.Qt.AlignCenter)
+        self.formLayout.setContentsMargins(9, 9, 9, 9)
+        self.formLayout.setHorizontalSpacing(9)
+        self.formLayout.setVerticalSpacing(20)
+        self.formLayout.setObjectName("formLayout")
+        self.label = QtWidgets.QLabel(self.widget)
+        self.label.setObjectName("label")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.comboBox = QtWidgets.QComboBox(self.widget)
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.comboBox)
+        self.label_2 = QtWidgets.QLabel(self.widget)
+        self.label_2.setObjectName("label_2")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
+        self.comboBox_2 = QtWidgets.QComboBox(self.widget)
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.comboBox_2)
+        self.label_3 = QtWidgets.QLabel(self.widget)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
+        self.comboBox_3 = QtWidgets.QComboBox(self.widget)
+        self.comboBox_3.setObjectName("comboBox_3")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.comboBox_3)
+        self.label_4 = QtWidgets.QLabel(self.widget)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.comboBox_4 = QtWidgets.QComboBox(self.widget)
+        self.comboBox_4.setObjectName("comboBox_4")
+        self.comboBox_4.addItem("")
+        self.comboBox_4.addItem("")
+        self.comboBox_4.addItem("")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.comboBox_4)
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "配置修改"))
+        self.pushButton.setText(_translate("Form", "确定"))
+        self.pushButton_2.setText(_translate("Form", "取消"))
+        self.label.setText(_translate("Form", "串口波特率："))
+        self.comboBox.setItemText(0, _translate("Form", "9600"))
+        self.comboBox.setItemText(1, _translate("Form", "2400"))
+        self.comboBox.setItemText(2, _translate("Form", "4800"))
+        self.comboBox.setItemText(3, _translate("Form", "19200"))
+        self.comboBox.setItemText(4, _translate("Form", "38400"))
+        self.label_2.setText(_translate("Form", "串口号："))
+        self.label_3.setText(_translate("Form", "数据位："))
+        self.comboBox_3.setItemText(0, _translate("Form", "8"))
+        self.comboBox_3.setItemText(1, _translate("Form", "7"))
+        self.comboBox_3.setItemText(2, _translate("Form", "6"))
+        self.comboBox_3.setItemText(3, _translate("Form", "5"))
+        self.label_4.setText(_translate("Form", "停止位："))
+        self.comboBox_4.setItemText(0, _translate("Form", "1"))
+        self.comboBox_4.setItemText(1, _translate("Form", "1.5"))
+        self.comboBox_4.setItemText(2, _translate("Form", "2"))
+
+
+import G_rc
